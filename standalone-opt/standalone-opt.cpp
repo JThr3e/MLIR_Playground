@@ -15,14 +15,30 @@
 #include "Standalone/StandaloneDialect.h"
 #include "Standalone/StandalonePasses.h"
 
+#include "mlir/Pass/PassManager.h"
+#include "mlir/Transforms/Passes.h"
+
+//struct MyPipelineOptions : public mlir::PassPipelineOptions {
+//};
+
+void registerPipeline() {
+    mlir::PassPipelineRegistration<>(
+        "example-pipeline", "Run an example pipeline.",
+        [](mlir::OpPassManager &pm) { 
+            pm.addPass(mlir::standalone::createStandaloneEmpty());
+        });
+}
+
 int main(int argc, char **argv) {
-  mlir::registerAllPasses();
+  //mlir::registerAllPasses();
   mlir::standalone::registerPasses();
-  // TODO: Register standalone passes here.
+
+  registerPipeline();
 
   mlir::DialectRegistry registry;
   registry.insert<mlir::standalone::StandaloneDialect,
                   mlir::arith::ArithDialect, mlir::func::FuncDialect>();
+
   // Add the following to include *all* MLIR Core dialects, or selectively
   // include what you need like above. You only need to register dialects that
   // will be *parsed* by the tool, not the one generated
