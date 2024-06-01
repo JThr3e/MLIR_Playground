@@ -27,4 +27,10 @@ def StandaloneSwitchBarFoo: Pass<"standalone-switch-bar-foo", "::mlir::ModuleOp"
   }];
 }
 
+def StandaloneEmpty: Pass<"standalone-empty", "::mlir::ModuleOp"> {
+  let summary = "Does nothing";
+  let description = [{
+  }];
+}
+
 #endif // STANDALONE_PASS
