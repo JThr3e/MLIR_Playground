@@ -21,19 +21,21 @@
 //struct MyPipelineOptions : public mlir::PassPipelineOptions {
 //};
 
-void registerPipeline() {
+void registerPipelineThread() {
     mlir::PassPipelineRegistration<>(
-        "example-pipeline", "Run an example pipeline.",
+        "test-multithread", "Test out mlir processing func ops in a multithreaded fashion",
         [](mlir::OpPassManager &pm) { 
-            pm.addPass(mlir::standalone::createStandaloneEmpty());
+            mlir::OpPassManager &nestedFunctionPM = pm.nest<mlir::func::FuncOp>();
+            nestedFunctionPM.addPass(mlir::standalone::createStandaloneFuncWait());
         });
 }
+
 
 int main(int argc, char **argv) {
   //mlir::registerAllPasses();
   mlir::standalone::registerPasses();
 
-  registerPipeline();
+  registerPipelineThread();
 
   mlir::DialectRegistry registry;
   registry.insert<mlir::standalone::StandaloneDialect,

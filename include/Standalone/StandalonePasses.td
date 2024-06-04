@@ -33,4 +33,10 @@ def StandaloneEmpty: Pass<"standalone-empty", "::mlir::ModuleOp"> {
   }];
 }
 
+def StandaloneFuncWait: Pass<"func-wait", "::mlir::func::FuncOp"> {
+  let summary = "waits on a function";
+  let description = [{
+  }];
+}
+
 #endif // STANDALONE_PASS
