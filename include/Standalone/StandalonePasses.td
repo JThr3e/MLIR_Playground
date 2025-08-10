@@ -39,4 +39,11 @@ def StandaloneFuncWait: Pass<"func-wait", "::mlir::func::FuncOp"> {
   }];
 }
 
+def DeadCodeElim: Pass<"dead-code-elim", "::mlir::ModuleOp"> {
+  let summary = "eliminates deadcode from function";
+  let description = [{
+  }];
+}
+
+
 #endif // STANDALONE_PASS

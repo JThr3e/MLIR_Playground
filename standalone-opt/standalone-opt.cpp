@@ -30,12 +30,23 @@ void registerPipelineThread() {
         });
 }
 
+void registerPipelineDCE() {
+    mlir::PassPipelineRegistration<>(
+        "test-dce", "Test out implementation of DCE",
+        [](mlir::OpPassManager &pm) { 
+            //mlir::OpPassManager &nestedFunctionPM = pm.nest<mlir::func::FuncOp>();
+            pm.addPass(mlir::standalone::createDeadCodeElim());
+        });
+}
+
+
 
 int main(int argc, char **argv) {
   //mlir::registerAllPasses();
   mlir::standalone::registerPasses();
 
   registerPipelineThread();
+  registerPipelineDCE();
 
   mlir::DialectRegistry registry;
   registry.insert<mlir::standalone::StandaloneDialect,
